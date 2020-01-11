@@ -5,7 +5,6 @@ import com.electronwill.nightconfig.core.io.WritingMode;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -16,10 +15,10 @@ public class ConfigManager {
 
   public static ForgeConfigSpec COMMON_CONFIG;
 
-  public static ForgeConfigSpec.ConfigValue<List<String>> COMMANDS;
+  public static ForgeConfigSpec.ConfigValue<List<? extends String>> COMMANDS;
 
   static {
-    COMMANDS = COMMON_BUILDER.comment("Commands that can be executed when Dark Tribute is made.", "Commands should be in the syntax of: \"/command to execute\".", "All commands are executed as the player who performed the Dark Tribute.").define("commands", Collections.emptyList());
+    COMMANDS = COMMON_BUILDER.comment("Commands that can be executed when Dark Tribute is made.", "Commands should be in the syntax of: \"/command to execute\".", "All commands are executed as the player who performed the Dark Tribute.").defineList("commands", Collections.emptyList(), o -> true);
     COMMON_CONFIG = COMMON_BUILDER.build();
   }
 
@@ -30,7 +29,7 @@ public class ConfigManager {
   }
 
   public static String getCommand() {
-    List<String> COMMAND_LIST = COMMANDS.get();
+    List<? extends String> COMMAND_LIST = COMMANDS.get();
 
     if (COMMAND_LIST.isEmpty()) {
       return null;
