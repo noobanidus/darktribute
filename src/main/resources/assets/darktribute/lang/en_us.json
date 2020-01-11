@@ -1,7 +1,7 @@
 {
   "darktribute.sounds.cackle": "Dark Cackling",
   "item.darktribute.symbol": "Dark Symbol",
-  "darktribute.message": "Dark Tribute was made by %s!",
+  "darktribute.message": "%s has made Dark Tribute!",
   "darktribute.advancement.tribute": "Dark Tribute",
   "darktribute.advancement.tribute.desc": "Gave Dark Tribute to the eternal lava.",
   "darktribute.advancement.root": "Darkness calls...",

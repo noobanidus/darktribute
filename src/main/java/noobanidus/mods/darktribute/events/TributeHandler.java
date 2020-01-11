@@ -7,6 +7,9 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -40,6 +43,8 @@ public class TributeHandler {
     player.world.playSound(null, player.getPosition(), ModSounds.CACKLE.get(), SoundCategory.NEUTRAL, 1, 0.85f);
 
     ModAdvancements.TRIBUTE_TRIGGER.trigger((ServerPlayerEntity) player, null);
+
+    ServerLifecycleHooks.getCurrentServer().getPlayerList().sendMessage(new TranslationTextComponent("darktribute.message", player.getName()).setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)));
   }
 
   public static void onItemToss(ItemTossEvent event) {
