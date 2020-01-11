@@ -1,0 +1,9 @@
+{
+  "darktribute.cackle": {
+    "category": "neutral",
+    "sounds": [
+      "darktribute:cackle/cackle"
+    ],
+    "subtitle": "darktribute.sounds.cackle"
+  }
+}
