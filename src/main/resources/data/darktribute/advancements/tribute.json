@@ -1,0 +1,27 @@
+{
+  "parent": "darktribute:root",
+  "display": {
+    "icon": {
+      "item": "darktribute:symbol"
+    },
+    "title": {
+      "translate": "darktribute.advancement.tribute"
+    },
+    "description": {
+      "translate": "darktribute.advancement.tribute.desc"
+    },
+    "hidden": true,
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "performed_tribute": {
+      "trigger": "darktribute:tribute"
+    }
+  },
+  "requirements": [
+    [
+      "performed_tribute"
+    ]
+  ]
+}
