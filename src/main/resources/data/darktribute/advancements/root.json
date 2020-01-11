@@ -9,10 +9,7 @@
     },
     "description": {
       "translate": "darktribute.advancement.root.desc"
-    },
-    "hidden": false,
-    "show_toast": false,
-    "announce_to_chat": false
+    }
   },
   "criteria": {
     "diamond": {

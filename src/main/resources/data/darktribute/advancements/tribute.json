@@ -4,6 +4,7 @@
     "icon": {
       "item": "darktribute:symbol"
     },
+    "frame": "challenge",
     "title": {
       "translate": "darktribute.advancement.tribute"
     },
