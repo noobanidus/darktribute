@@ -44,7 +44,7 @@ public class TributeHandler {
 
     ModAdvancements.TRIBUTE_TRIGGER.trigger((ServerPlayerEntity) player, null);
 
-    ServerLifecycleHooks.getCurrentServer().getPlayerList().sendMessage(new TranslationTextComponent("darktribute.message", player.getName()).setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)));
+    ServerLifecycleHooks.getCurrentServer().getPlayerList().sendMessage(new TranslationTextComponent("darktribute.message", player.getName()).setStyle(new Style().setColor(TextFormatting.DARK_RED)));
   }
 
   public static void onItemToss(ItemTossEvent event) {
