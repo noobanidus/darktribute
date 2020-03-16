@@ -1,13 +1,15 @@
 package noobanidus.mods.darktribute.particles;
 
 
-import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.TexturedParticle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -26,7 +28,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-public class DiamondParticle extends Particle {
+public class DiamondParticle extends TexturedParticle {
   public static final ResourceLocation particles = new ResourceLocation(DarkTribute.MODID, "textures/item/darkened_diamond.png");
 
   protected float particleScale = 1f;
@@ -55,20 +57,23 @@ public class DiamondParticle extends Particle {
   }
 
   @Override
-  public void renderParticle(BufferBuilder buffer, ActiveRenderInfo entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-    float var8 = 0; // particle % 8 / 8.0F;
-    float var9 = 1; // var8 + 0.0624375F * 2;
-    float var10 = 0; // particle / 8F / 8.0F;
-    float var11 = 1; // var10 + 0.0624375F * 2;
-    float scale = 0.1F * particleScale;
-    float posX = (float) (prevPosX + (this.posX - prevPosX) * partialTicks - interpPosX);
-    float posY = (float) (prevPosY + (this.posY - prevPosY) * partialTicks - interpPosY);
-    float posZ = (float) (prevPosZ + (this.posZ - prevPosZ) * partialTicks - interpPosZ);
+  protected float getMinU() {
+    return 0;
+  }
 
-    buffer.pos(posX - rotationX * scale - rotationXY * scale, posY - rotationZ * scale, posZ - rotationYZ * scale - rotationXZ * scale).tex(var9, var11).color(255, 255, 255, 255).endVertex();
-    buffer.pos(posX - rotationX * scale + rotationXY * scale, posY + rotationZ * scale, posZ - rotationYZ * scale + rotationXZ * scale).tex(var9, var10).color(255, 255, 255, 255).endVertex();
-    buffer.pos(posX + rotationX * scale + rotationXY * scale, posY + rotationZ * scale, posZ + rotationYZ * scale + rotationXZ * scale).tex(var8, var10).color(255, 255, 255, 255).endVertex();
-    buffer.pos(posX + rotationX * scale - rotationXY * scale, posY - rotationZ * scale, posZ + rotationYZ * scale - rotationXZ * scale).tex(var8, var11).color(255, 255, 255, 255).endVertex();
+  @Override
+  protected float getMaxU() {
+    return 1;
+  }
+
+  @Override
+  protected float getMinV() {
+    return 0;
+  }
+
+  @Override
+  protected float getMaxV() {
+    return 1;
   }
 
   @Override
@@ -83,23 +88,22 @@ public class DiamondParticle extends Particle {
   }
 
   private static void beginRenderCommon(BufferBuilder buffer, TextureManager textureManager) {
-    GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
-    GlStateManager.depthMask(false);
-    GlStateManager.enableBlend();
-    GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
-    GlStateManager.disableLighting();
-    GlStateManager.disableDepthTest();
-    GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1F);
+    RenderSystem.pushLightingAttributes();
+    RenderSystem.depthMask(false);
+    RenderSystem.enableBlend();
+    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
+    RenderSystem.disableLighting();
+    RenderSystem.disableDepthTest();
+    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1F);
     textureManager.bindTexture(particles);
-    GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 240.0f, 240.f);
-    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
   }
 
   private static void endRenderCommon() {
-    GlStateManager.disableBlend();
-    GlStateManager.enableDepthTest();
-    GlStateManager.depthMask(true);
-    GL11.glPopAttrib();
+    RenderSystem.disableBlend();
+    RenderSystem.enableDepthTest();
+    RenderSystem.depthMask(true);
+    RenderSystem.popAttributes();
   }
 
   private static final IParticleRenderType NORMAL_RENDER = new IParticleRenderType() {

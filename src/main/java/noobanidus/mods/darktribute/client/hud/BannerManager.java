@@ -1,8 +1,7 @@
 package noobanidus.mods.darktribute.client.hud;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -51,18 +50,17 @@ public class BannerManager {
     int y = mc.mainWindow.getScaledHeight() / 2 - height / 2;
 
     int u = 0, v = 0;
-
-    GlStateManager.texParameter(GL11C.GL_TEXTURE_2D, GL11C.GL_TEXTURE_WRAP_S, GL14C.GL_CLAMP_TO_EDGE);
-    GlStateManager.texParameter(GL11C.GL_TEXTURE_2D, GL11C.GL_TEXTURE_WRAP_T, GL14C.GL_CLAMP_TO_EDGE);
+    RenderSystem.texParameter(GL11C.GL_TEXTURE_2D, GL11C.GL_TEXTURE_WRAP_S, GL14C.GL_CLAMP_TO_EDGE);
+    RenderSystem.texParameter(GL11C.GL_TEXTURE_2D, GL11C.GL_TEXTURE_WRAP_T, GL14C.GL_CLAMP_TO_EDGE);
     float f = 1.0F / textureWidth;
     float f1 = 1.0F / textureHeight;
     Tessellator tessellator = Tessellator.getInstance();
     BufferBuilder bufferbuilder = tessellator.getBuffer();
     bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-    bufferbuilder.pos((double) x, (double) (y + height), 0.0D).tex((double) (u * f), (double) ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((u + (float) width) * f), (double) ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.pos((double) (x + width), (double) y, 0.0D).tex((double) ((u + (float) width) * f), (double) (v * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.pos((double) x, (double) y, 0.0D).tex((double) (u * f), (double) (v * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex((double) x, (double) (y + height), 0.0D).texture((u * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex((double) (x + width), (double) (y + height), 0.0D).texture(((u + (float) width) * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex((double) (x + width), (double) y, 0.0D).texture(((u + (float) width) * f), (v * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex((double) x, (double) y, 0.0D).texture((u * f), (v * f1)).color(255, 255, 255, a).endVertex();
     tessellator.draw();
   }
 
