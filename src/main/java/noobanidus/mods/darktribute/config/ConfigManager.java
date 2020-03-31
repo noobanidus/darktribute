@@ -4,6 +4,7 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
+import noobanidus.mods.darktribute.DarkTribute;
 
 import java.nio.file.Path;
 import java.util.Collections;
@@ -42,6 +43,7 @@ public class ConfigManager {
   public static void configReloaded (ModConfig.Reloading event) {
     if (event.getConfig().getType() == ModConfig.Type.COMMON) {
       COMMON_CONFIG.setConfig(event.getConfig().getConfigData());
+      DarkTribute.LOG.info("DarkTribute config reloaded!");
     }
   }
 }
