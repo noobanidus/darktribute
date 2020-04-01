@@ -6,13 +6,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import noobanidus.mods.darktribute.DarkTribute;
 import noobanidus.mods.darktribute.config.ConfigManager;
 import noobanidus.mods.darktribute.entities.DiamondEntity;
 import noobanidus.mods.darktribute.init.ModAdvancements;
@@ -20,14 +23,15 @@ import noobanidus.mods.darktribute.init.ModSounds;
 import noobanidus.mods.darktribute.networking.Networking;
 import noobanidus.mods.darktribute.networking.PacketBanner;
 import noobanidus.mods.darktribute.networking.PacketParticles;
+import noobanidus.mods.darktribute.networking.PacketWhispers;
 
 public class TributeHandler {
   public static void giveTribute(DiamondEntity diamond, PlayerEntity player, int count) {
     ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-    CommandSource source = serverPlayer.getCommandSource();
     MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+    CommandSource source = server.getCommandSource();
     for (int i = 0; i < count; i++) {
-      String command = ConfigManager.getCommand();
+      String command = ConfigManager.getCommand(serverPlayer);
       if (command != null) {
         server.getCommandManager().handleCommand(source, command);
       }
@@ -60,6 +64,15 @@ public class TributeHandler {
         diamond.setThrowerId(player.getUniqueID());
         player.world.addEntity(diamond);
       }
+    }
+  }
+
+  private static ResourceLocation root = new ResourceLocation(DarkTribute.MODID, "root");
+
+  public static void onAdvancementGiven (AdvancementEvent event) {
+    if (event.getAdvancement().getId().equals(root)) {
+      PacketWhispers packet = new PacketWhispers();
+      Networking.sendTo(packet, (ServerPlayerEntity)event.getPlayer());
     }
   }
 }

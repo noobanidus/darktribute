@@ -37,6 +37,7 @@ public class DarkTribute {
     ModSounds.soundRegistry.register(modBus);
     ModItems.itemRegistry.register(modBus);
     MinecraftForge.EVENT_BUS.addListener(TributeHandler::onItemToss);
+    MinecraftForge.EVENT_BUS.addListener(TributeHandler::onAdvancementGiven);
     modBus.addListener(ConfigManager::configReloaded);
 
     DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {

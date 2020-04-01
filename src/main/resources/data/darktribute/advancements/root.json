@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:diamond"
+      "item": "darktribute:symbol"
     },
     "background": "darktribute:textures/gui/dark_diamond.png",
     "title": {
