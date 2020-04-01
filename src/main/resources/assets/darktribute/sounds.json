@@ -5,5 +5,12 @@
       "darktribute:cackle/cackle"
     ],
     "subtitle": "darktribute.sounds.cackle"
+  },
+  "darktribute.whispers": {
+    "category": "neutral",
+    "sounds": [
+      "darktribute:whispers/whispers"
+    ],
+    "subtitle":  "darktribute.sounds.whispers"
   }
 }

@@ -61,6 +61,7 @@ public class Networking {
     //registerMessage(ShoulderRide.class, ShoulderRide::encode, ShoulderRide::new, ShoulderRide::handle);
     registerMessage(PacketParticles.class, PacketParticles::encode, PacketParticles::new, PacketParticles::handle);
     registerMessage(PacketBanner.class, PacketBanner::encode, PacketBanner::new, PacketBanner::handle);
+    registerMessage(PacketWhispers.class, PacketWhispers::encode, PacketWhispers::new, PacketWhispers::handle);
   }
 
   public static void sendTo(Object msg, ServerPlayerEntity player) {

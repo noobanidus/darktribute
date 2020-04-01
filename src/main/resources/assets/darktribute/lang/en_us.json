@@ -1,9 +1,10 @@
 {
   "darktribute.sounds.cackle": "Dark Cackling",
+  "darktribute.sounds.whispers": "Ominous Whispers",
   "item.darktribute.symbol": "Dark Symbol",
   "darktribute.message": "%s has made Dark Tribute!",
   "darktribute.advancement.tribute": "Dark Tribute",
   "darktribute.advancement.tribute.desc": "Gave Dark Tribute to the eternal lava.",
-  "darktribute.advancement.root": "Darkness calls...",
-  "darktribute.advancement.root.desc": "In the darkness, something bright and burning hungers."
+  "darktribute.advancement.root": "Ominous whispers...",
+  "darktribute.advancement.root.desc": "Something bright and burning hungers for something precious. You hear its whispers!"
 }

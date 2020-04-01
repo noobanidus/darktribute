@@ -11,4 +11,5 @@ public class ModSounds {
   public static final DeferredRegister<SoundEvent> soundRegistry = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, DarkTribute.MODID);
 
   public static RegistryObject<SoundEvent> CACKLE = soundRegistry.register("cackle", () -> new SoundEvent(new ResourceLocation(DarkTribute.MODID, "darktribute.cackle")));
+  public static RegistryObject<SoundEvent> WHISPERS = soundRegistry.register("whispers", () -> new SoundEvent(new ResourceLocation(DarkTribute.MODID, "darktribute.whispers")));
 }
