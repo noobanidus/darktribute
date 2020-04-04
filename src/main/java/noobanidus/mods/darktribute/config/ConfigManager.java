@@ -57,7 +57,7 @@ public class ConfigManager {
     return "/execute as " + player.getScoreboardName() + " run " + initialCommand;
   }
 
-  public static void configReloaded (ModConfig.Reloading event) {
+  public static void configReloaded (ModConfig.ConfigReloading event) {
     if (event.getConfig().getType() == ModConfig.Type.COMMON) {
       COMMON_CONFIG.setConfig(event.getConfig().getConfigData());
       DarkTribute.LOG.info("DarkTribute config reloaded!");
