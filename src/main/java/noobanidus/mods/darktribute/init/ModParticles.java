@@ -9,7 +9,7 @@ import noobanidus.mods.darktribute.particles.DiamondParticle;
 import noobanidus.mods.darktribute.particles.DiamondParticleType;
 
 public class ModParticles {
-  public static final DeferredRegister<ParticleType<?>> particleRegistry = new DeferredRegister<>(ForgeRegistries.PARTICLE_TYPES, DarkTribute.MODID);
+  public static final DeferredRegister<ParticleType<?>> particleRegistry = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, DarkTribute.MODID);
 
   public static final RegistryObject<DiamondParticleType> DIAMOND = particleRegistry.register("diamond", DiamondParticleType::new);
 }

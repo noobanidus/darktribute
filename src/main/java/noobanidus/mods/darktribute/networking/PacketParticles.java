@@ -6,6 +6,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 import noobanidus.mods.darktribute.particles.DiamondParticle;
+import noobanidus.mods.darktribute.particles.DiamondParticleData;
+import noobanidus.mods.darktribute.particles.DiamondParticleType;
 
 import java.util.function.Supplier;
 
@@ -42,7 +44,7 @@ public class PacketParticles {
     Minecraft mc = Minecraft.getInstance();
     //noinspection ConstantConditions
     if (mc != null && mc.player != null) {
-      mc.player.world.addParticle(new DiamondParticle.Type(10f, 1f, 1f, 1f, 1f, 1f, 20, 0f), message.posX, message.posY, message.posZ, 0, 0, 0);
+      mc.player.world.addParticle(new DiamondParticleData(10f, 1f, 1f, 1f, 1f, 1f, 0f), message.posX, message.posY, message.posZ, 0, 0, 0);
     }
 
     context.get().setPacketHandled(true);

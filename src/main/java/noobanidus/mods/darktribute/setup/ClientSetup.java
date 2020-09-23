@@ -7,6 +7,7 @@ import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import noobanidus.mods.darktribute.particles.DiamondParticle;
 import noobanidus.mods.darktribute.init.ModParticles;
+import noobanidus.mods.darktribute.particles.DiamondParticleData;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientSetup {
@@ -15,6 +16,6 @@ public class ClientSetup {
   }
 
   public static void registerParticles (ParticleFactoryRegisterEvent event) {
-    Minecraft.getInstance().particles.registerFactory(ModParticles.DIAMOND.get(), new DiamondParticle.Type.Factory());
+    Minecraft.getInstance().particles.registerFactory(ModParticles.DIAMOND.get(), new DiamondParticle.Factory());
   }
 }

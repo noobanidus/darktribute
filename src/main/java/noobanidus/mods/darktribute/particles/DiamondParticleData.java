@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
+import noobanidus.mods.darktribute.init.ModParticles;
 
 import java.util.Locale;
 
@@ -65,7 +66,7 @@ public class DiamondParticleData implements IParticleData {
 
   @Override
   public ParticleType<?> getType() {
-    return null;
+    return ModParticles.DIAMOND.get();
   }
 
   @Override

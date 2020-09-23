@@ -1,18 +1,25 @@
 package noobanidus.mods.darktribute.particles;
 
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import noobanidus.mods.darktribute.DarkTribute;
+import noobanidus.mods.darktribute.init.ModItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class DiamondParticle extends SpriteTexturedParticle {
-  public static final ResourceLocation particles = new ResourceLocation(DarkTribute.MODID, "textures/item/darkened_diamond.png");
-
   protected float particleScale;
   protected float alpha;
   protected float colourScale;
@@ -39,71 +46,34 @@ public class DiamondParticle extends SpriteTexturedParticle {
     canCollide = false;
     this.alpha = alpha;
     this.colourScale = colourScale;
-  }
-
-  @Override
-  protected float getMinU() {
-    return 0;
-  }
-
-  @Override
-  protected float getMaxU() {
-    return 1;
-  }
-
-  @Override
-  protected float getMinV() {
-    return 0;
-  }
-
-  @Override
-  protected float getMaxV() {
-    return 1;
+    this.setSprite(Minecraft.getInstance().getItemRenderer().getItemModelMesher().getParticleIcon(ModItems.advancement.get()));
   }
 
   @Nonnull
   @Override
   public IParticleRenderType getRenderType() {
-    return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    return TERRAIN_OPAQUE;
   }
 
-/*  private static void beginRenderCommon(BufferBuilder buffer, TextureManager textureManager) {
-    RenderSystem.pushLightingAttributes();
-    RenderSystem.depthMask(false);
-    RenderSystem.enableBlend();
+  private static final IParticleRenderType TERRAIN_OPAQUE = new IParticleRenderType() {
+    public void beginRender(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {
+      RenderSystem.enableBlend();
     RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
-    RenderSystem.disableLighting();
-    RenderSystem.disableDepthTest();
-    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1F);
-    textureManager.bindTexture(particles);
-    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
-  }
-
-  private static void endRenderCommon() {
-    RenderSystem.disableBlend();
-    RenderSystem.enableDepthTest();
-    RenderSystem.depthMask(true);
-    RenderSystem.popAttributes();
-  }*/
-
-/*  private static final IParticleRenderType NORMAL_RENDER = new IParticleRenderType() {
-    @Override
-    public void beginRender(BufferBuilder bufferBuilder, TextureManager textureManager) {
-      beginRenderCommon(bufferBuilder, textureManager);
+      RenderSystem.depthMask(true);
+      RenderSystem.disableDepthTest();
+      p_217600_2_.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+      p_217600_1_.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
     }
 
-    @Override
-    public void finishRender(Tessellator tessellator) {
-      tessellator.draw();
-      endRenderCommon();
+    public void finishRender(Tessellator p_217599_1_) {
+      p_217599_1_.draw();
+      RenderSystem.enableDepthTest();
     }
 
-    @Override
     public String toString() {
-      return "darktribute:diamond";
+      return "TERRAIN_SHEET_OPAQUE";
     }
-  };*/
-
+  };
 
   public static class Factory implements IParticleFactory<DiamondParticleData> {
     @Nullable

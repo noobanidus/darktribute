@@ -2,8 +2,8 @@ package noobanidus.mods.darktribute.init;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.util.ResourceLocation;
+import noobanidus.libs.noobutil.advancement.GenericTrigger;
 import noobanidus.mods.darktribute.DarkTribute;
-import noobanidus.mods.darktribute.advancement.GenericTrigger;
 import noobanidus.mods.darktribute.advancement.TributePredicate;
 
 public class ModAdvancements {
