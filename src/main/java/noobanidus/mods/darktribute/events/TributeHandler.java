@@ -8,6 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -37,7 +38,7 @@ public class TributeHandler {
       }
     }
 
-    PacketParticles message = new PacketParticles(diamond.posX, diamond.posY, diamond.posZ);
+    PacketParticles message = new PacketParticles(diamond.getPosX(), diamond.getPosY(), diamond.getPosZ());
     Networking.send(PacketDistributor.TRACKING_ENTITY.with(() -> player), message);
     Networking.sendTo(message, (ServerPlayerEntity) player);
 
@@ -48,7 +49,7 @@ public class TributeHandler {
 
     ModAdvancements.TRIBUTE_TRIGGER.trigger((ServerPlayerEntity) player, null);
 
-    ServerLifecycleHooks.getCurrentServer().getPlayerList().sendMessage(new TranslationTextComponent("darktribute.message", player.getName()).setStyle(new Style().setColor(TextFormatting.DARK_RED)));
+    ServerLifecycleHooks.getCurrentServer().getPlayerList().func_232641_a_(new TranslationTextComponent("darktribute.message", player.getName()).setStyle(Style.EMPTY.setFormatting(TextFormatting.DARK_RED)), ChatType.CHAT, player.getUniqueID());
   }
 
   public static void onItemToss(ItemTossEvent event) {
@@ -58,7 +59,7 @@ public class TributeHandler {
       event.setCanceled(true);
       if (!player.world.isRemote()) {
         DiamondEntity diamond = new DiamondEntity(item);
-        diamond.setPositionAndRotation(item.posX, item.posY, item.posZ, item.rotationYaw, item.rotationPitch);
+        diamond.setPositionAndRotation(item.getPosX(), item.getPosY(), item.getPosZ(), item.rotationYaw, item.rotationPitch);
         diamond.setMotion(item.getMotion());
         diamond.setPickupDelay(40);
         diamond.setThrowerId(player.getUniqueID());
@@ -69,10 +70,10 @@ public class TributeHandler {
 
   private static ResourceLocation root = new ResourceLocation(DarkTribute.MODID, "root");
 
-  public static void onAdvancementGiven (AdvancementEvent event) {
+  public static void onAdvancementGiven(AdvancementEvent event) {
     if (event.getAdvancement().getId().equals(root)) {
       PacketWhispers packet = new PacketWhispers();
-      Networking.sendTo(packet, (ServerPlayerEntity)event.getPlayer());
+      Networking.sendTo(packet, (ServerPlayerEntity) event.getPlayer());
     }
   }
 }

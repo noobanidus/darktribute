@@ -11,7 +11,7 @@ public class DiamondEntity extends ItemEntity {
   public boolean tribute = false;
 
   public DiamondEntity(ItemEntity item) {
-    super(item.world, item.posX, item.posY, item.posZ, item.getItem());
+    super(item.world, item.getPosX(), item.getPosY(), item.getPosZ(), item.getItem());
   }
 
   @Override

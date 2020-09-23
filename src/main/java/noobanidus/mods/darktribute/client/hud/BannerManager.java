@@ -56,11 +56,12 @@ public class BannerManager {
     float f1 = 1.0F / textureHeight;
     Tessellator tessellator = Tessellator.getInstance();
     BufferBuilder bufferbuilder = tessellator.getBuffer();
+    //noinspection deprecation
     bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-    bufferbuilder.vertex((double) x, (double) (y + height), 0.0D).texture((u * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.vertex((double) (x + width), (double) (y + height), 0.0D).texture(((u + (float) width) * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.vertex((double) (x + width), (double) y, 0.0D).texture(((u + (float) width) * f), (v * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.vertex((double) x, (double) y, 0.0D).texture((u * f), (v * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.pos((double) x, (double) (y + height), 0.0D).tex((u * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.pos((double) (x + width), (double) (y + height), 0.0D).tex(((u + (float) width) * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.pos((double) (x + width), (double) y, 0.0D).tex(((u + (float) width) * f), (v * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.pos((double) x, (double) y, 0.0D).tex((u * f), (v * f1)).color(255, 255, 255, a).endVertex();
     tessellator.draw();
   }
 

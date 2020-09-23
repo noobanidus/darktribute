@@ -6,9 +6,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import noobanidus.mods.darktribute.DarkTribute;
 import noobanidus.mods.darktribute.particles.DiamondParticle;
+import noobanidus.mods.darktribute.particles.DiamondParticleType;
 
 public class ModParticles {
   public static final DeferredRegister<ParticleType<?>> particleRegistry = new DeferredRegister<>(ForgeRegistries.PARTICLE_TYPES, DarkTribute.MODID);
 
-  public static final RegistryObject<DiamondParticle.Type> DIAMOND = particleRegistry.register("diamond", DiamondParticle.Type::new);
+  public static final RegistryObject<DiamondParticleType> DIAMOND = particleRegistry.register("diamond", DiamondParticleType::new);
 }

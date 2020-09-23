@@ -9,6 +9,7 @@ import noobanidus.mods.darktribute.particles.DiamondParticle;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings("WeakerAccess")
 public class PacketParticles {
   private double posX;
   private double posY;
@@ -39,7 +40,10 @@ public class PacketParticles {
   @OnlyIn(Dist.CLIENT)
   public void handle(PacketParticles message, Supplier<NetworkEvent.Context> context) {
     Minecraft mc = Minecraft.getInstance();
-    mc.player.world.addParticle(new DiamondParticle.Data(10f, 1f, 1f, 1f, 1f, 1f, 20, 0f), message.posX, message.posY, message.posZ, 0, 0, 0);
+    //noinspection ConstantConditions
+    if (mc != null && mc.player != null) {
+      mc.player.world.addParticle(new DiamondParticle.Type(10f, 1f, 1f, 1f, 1f, 1f, 20, 0f), message.posX, message.posY, message.posZ, 0, 0, 0);
+    }
 
     context.get().setPacketHandled(true);
   }
