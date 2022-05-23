@@ -2,10 +2,7 @@ package noobanidus.mods.darktribute.client.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -24,7 +21,7 @@ public class BannerManager {
 
   public static void displayBanner(RenderGameOverlayEvent.Post event) {
     Minecraft mc = Minecraft.getInstance();
-    mc.getTextureManager().bindTexture(DARK_TRIBUTE);
+    mc.getTextureManager().bind(DARK_TRIBUTE);
 
     // 10 ticks to fade in
     // 10 ticks to fade out
@@ -41,13 +38,13 @@ public class BannerManager {
       a = 255 - (a / Math.max(1, (TOTAL_TICKS - ticksActive)));
     }
 
-    float textureWidth = (float) (926 / mc.mainWindow.getGuiScaleFactor());
-    float textureHeight = (float) (501 / mc.mainWindow.getGuiScaleFactor());
+    float textureWidth = (float) (926 / mc.window.getGuiScale());
+    float textureHeight = (float) (501 / mc.window.getGuiScale());
     int width = (int) textureWidth;
     int height = (int) textureHeight;
 
-    int x = mc.mainWindow.getScaledWidth() / 2 - width / 2;
-    int y = mc.mainWindow.getScaledHeight() / 2 - height / 2;
+    int x = mc.window.getGuiScaledWidth() / 2 - width / 2;
+    int y = mc.window.getGuiScaledHeight() / 2 - height / 2;
 
     int u = 0, v = 0;
     RenderSystem.texParameter(GL11C.GL_TEXTURE_2D, GL11C.GL_TEXTURE_WRAP_S, GL14C.GL_CLAMP_TO_EDGE);
@@ -55,14 +52,14 @@ public class BannerManager {
     float f = 1.0F / textureWidth;
     float f1 = 1.0F / textureHeight;
     Tessellator tessellator = Tessellator.getInstance();
-    BufferBuilder bufferbuilder = tessellator.getBuffer();
+    BufferBuilder bufferbuilder = tessellator.getBuilder();
     //noinspection deprecation
     bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-    bufferbuilder.pos((double) x, (double) (y + height), 0.0D).tex((u * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.pos((double) (x + width), (double) (y + height), 0.0D).tex(((u + (float) width) * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.pos((double) (x + width), (double) y, 0.0D).tex(((u + (float) width) * f), (v * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.pos((double) x, (double) y, 0.0D).tex((u * f), (v * f1)).color(255, 255, 255, a).endVertex();
-    tessellator.draw();
+    bufferbuilder.vertex((double) x, (double) (y + height), 0.0D).uv((u * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex((double) (x + width), (double) (y + height), 0.0D).uv(((u + (float) width) * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex((double) (x + width), (double) y, 0.0D).uv(((u + (float) width) * f), (v * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex((double) x, (double) y, 0.0D).uv((u * f), (v * f1)).color(255, 255, 255, a).endVertex();
+    tessellator.end();
   }
 
   public static void startTribute() {

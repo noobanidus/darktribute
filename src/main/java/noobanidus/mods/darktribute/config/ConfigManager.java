@@ -2,9 +2,10 @@ package noobanidus.mods.darktribute.config;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import noobanidus.mods.darktribute.DarkTribute;
 
 import java.nio.file.Path;
@@ -40,7 +41,7 @@ public class ConfigManager {
     spec.setConfig(configData);
   }
 
-  public static String getCommand(ServerPlayerEntity player) {
+  public static String getCommand(ServerPlayer player) {
     List<? extends String> COMMAND_LIST = COMMANDS.get();
 
     if (COMMAND_LIST.isEmpty()) {
@@ -57,7 +58,7 @@ public class ConfigManager {
     return "/execute as " + player.getScoreboardName() + " run " + initialCommand;
   }
 
-  public static void configReloaded (ModConfig.Reloading event) {
+  public static void configReloaded (ModConfigEvent event) {
     if (event.getConfig().getType() == ModConfig.Type.COMMON) {
       COMMON_CONFIG.setConfig(event.getConfig().getConfigData());
       DarkTribute.LOG.info("DarkTribute config reloaded!");

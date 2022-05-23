@@ -1,129 +1,55 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.0.+', changing: true
-    }
-}
 plugins {
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'maven-publish'
+apply plugin: 'java'
 apply plugin: 'eclipse'
+apply from: 'gradle/property_helper.gradle'
+apply from: 'gradle/property_loader.gradle'
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = "${minecraft_version}-${mod_version}"
-group = "noobanidus.mods"
-archivesBaseName = "darktribute"
+// Load mod related properties
+ext.modName = getRequiredString('mod_name')
+ext.modAuthor = getRequiredString('mod_author')
+ext.modId = getRequiredString('mod_id')
+ext.modCredits = getDefaultString('mod_credits', ext.modAuthor)
+ext.modDescription = getOptionalString('mod_description')
+ext.modChangelog = getOptionalString('mod_changelog')
+ext.modHomepage = getOptionalString('mod_homepage')
+ext.modSource = getOptionalString('mod_source')
+ext.modIssues = getOptionalString('mod_issues')
+ext.modLicense = getOptionalString('mod_license')
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+// Load Minecraft specific properties
+ext.mcVersion = getRequiredString('minecraft_version')
 
-minecraft {
-    mappings channel: 'snapshot', version: "${mcp_mappings}"
+// Load build-time modules
+apply from: 'gradle/build_number.gradle'
+apply from: 'gradle/git_changelog.gradle'
+apply from: 'gradle/patreon.gradle'
+apply from: 'gradle/java.gradle'
+apply from: 'gradle/forge.gradle'
+apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/aequivaleo.gradle'
+apply from: 'gradle/api.gradle'
+apply from: 'gradle/blame.gradle'
+apply from: 'gradle/carrier_bees.gradle'
+apply from: 'gradle/curios.gradle'
+apply from: 'gradle/dynamic_trees.gradle'
+apply from: 'gradle/geckolib.gradle'
+apply from: 'gradle/jade.gradle'
+apply from: 'gradle/jei.gradle'
+apply from: 'gradle/worldstripper.gradle'
+apply from: 'gradle/mana_and_artifice.gradle'
+apply from: 'gradle/mysticalworld.gradle'
+apply from: 'gradle/patchouli.gradle'
+apply from: 'gradle/shadow.gradle'
+apply from: 'gradle/stables.gradle'
+apply from: 'gradle/top.gradle'
+apply from: 'gradle/minify_jsons.gradle'
 
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    runs {
-        client {
-            taskName 'runClient'
-
-            workingDirectory project.file('run')
-
-            //property 'forge.logging.markers', 'CORE,REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                darktribute {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            taskName 'runServer'
-
-            workingDirectory project.file('run')
-
-            //property 'forge.logging.markers', 'CORE,REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                darktribute {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            taskName 'runData'
-
-            workingDirectory project.file('run')
-
-            environment 'target', 'fmluserdevdata'
-
-            //property 'forge.logging.markers', 'CORE,REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                darktribute {
-                    source sourceSets.main
-                }
-            }
-
-            args '--mod', 'darktribute', '--all', '--output', '"' + rootProject.file('src/generated/resources/') + '"',
-                    '--existing', '"' + rootProject.file('src/main/resources') + '"'//, '--existing', '"' + rootProject.file('src/generated/resources') + '"'
-
-        }
-    }
-}
-
-repositories {
-    maven {
-        url "http://maven.tterrag.com/"
-    }
-    maven { // JEI
-        url "http://dvs1.progwml6.com/files/maven"
-    }
-    maven {
-        name = "Jared"
-        url = "https://maven.blamejared.com"
-    }
-}
-
-configurations {
-    shade
-}
-
-dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    def noobutil = "noobanidus.libs:noobutil:${minecraft_version}-${noobutil_version}"
-    implementation fg.deobf(noobutil)
-    shade noobutil
-}
-
-shadowJar {
-    configurations = [project.configurations.shade]
-    relocate 'noobanidus.libs.noobutil', 'noobanidus.libs.repack_darktribute.noobutil'
-    classifier ''
-}
-
-jar.classifier = 'nodep'
-
-reobf {
-    shadowJar {}
-}
-
-build.dependsOn reobfShadowJar
+// Load publishing modules
+apply from: 'gradle/maven.gradle'
+apply from: 'gradle/signing.gradle'
+apply from: 'gradle/curseforge.gradle'
+apply from: 'gradle/version_checker.gradle'

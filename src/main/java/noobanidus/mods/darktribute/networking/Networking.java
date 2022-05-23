@@ -1,14 +1,14 @@
 package noobanidus.mods.darktribute.networking;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.simple.SimpleChannel;
 import noobanidus.mods.darktribute.DarkTribute;
 
 import java.util.function.BiConsumer;
@@ -33,9 +33,9 @@ public class Networking {
 
   private int id = 0;
 
-  public void sendToInternal(Object msg, ServerPlayerEntity player) {
+  public void sendToInternal(Object msg, ServerPlayer player) {
     if (!(player instanceof FakePlayer))
-      HANDLER.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+      HANDLER.sendTo(msg, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
   }
 
   public void sendToServerInternal(Object msg) {
@@ -46,14 +46,14 @@ public class Networking {
     HANDLER.send(target, message);
   }
 
-  public <MSG> void registerMessage(Class<MSG> messageType, BiConsumer<MSG, PacketBuffer> encoder, Function<PacketBuffer, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {
+  public <MSG> void registerMessage(Class<MSG> messageType, BiConsumer<MSG, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {
     HANDLER.registerMessage(index, messageType, encoder, decoder, messageConsumer);
     index++;
     if (index > 0xFF)
       throw new RuntimeException("Too many messages!");
   }
 
-  public static void registerMessages () {
+  public static void registerMessages() {
     INSTANCE.doRegisterMessages();
   }
 
@@ -64,7 +64,7 @@ public class Networking {
     registerMessage(PacketWhispers.class, PacketWhispers::encode, PacketWhispers::new, PacketWhispers::handle);
   }
 
-  public static void sendTo(Object msg, ServerPlayerEntity player) {
+  public static void sendTo(Object msg, ServerPlayer player) {
     INSTANCE.sendToInternal(msg, player);
   }
 

@@ -1,23 +1,21 @@
 package noobanidus.mods.darktribute.networking;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 import noobanidus.mods.darktribute.client.hud.BannerManager;
-import noobanidus.mods.darktribute.particles.DiamondParticle;
 
 import java.util.function.Supplier;
 
 public class PacketBanner {
-  public PacketBanner(PacketBuffer buffer) {
+  public PacketBanner(FriendlyByteBuf buffer) {
   }
 
   public PacketBanner() {
   }
 
-  public void encode(PacketBuffer buf) {
+  public void encode(FriendlyByteBuf buf) {
   }
 
   public void handle(Supplier<NetworkEvent.Context> context) {

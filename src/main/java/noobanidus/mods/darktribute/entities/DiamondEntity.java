@@ -1,8 +1,8 @@
 package noobanidus.mods.darktribute.entities;
 
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import noobanidus.mods.darktribute.events.TributeHandler;
 
 import java.util.Objects;
@@ -11,26 +11,21 @@ public class DiamondEntity extends ItemEntity {
   public boolean tribute = false;
 
   public DiamondEntity(ItemEntity item) {
-    super(item.world, item.getPosX(), item.getPosY(), item.getPosZ(), item.getItem());
+    super(item.level, item.getX(), item.getY(), item.getZ(), item.getItem());
   }
 
   @Override
-  public void remove() {
-    super.remove();
-  }
-
-  @Override
-  public boolean attackEntityFrom(DamageSource source, float amount) {
-    if ((isInLava() || source.isFireDamage()) && isAlive() && !this.world.isRemote() && !tribute) {
-      if (getThrowerId() != null) {
-        TributeHandler.giveTribute(this, getThrower(), getItem().getCount());
+  public boolean hurt(DamageSource source, float amount) {
+    if ((isInLava() || source.isFire()) && isAlive() && !this.level.isClientSide() && !tribute) {
+      if (getThrower() != null) {
+        TributeHandler.giveTribute(this, getThrowerPlayer(), getItem().getCount());
         this.tribute = true;
       }
     }
-    return super.attackEntityFrom(source, amount);
+    return super.hurt(source, amount);
   }
 
-  private PlayerEntity getThrower() {
-    return world.getPlayerByUuid(Objects.requireNonNull(getThrowerId()));
+  private Player getThrowerPlayer() {
+    return level.getPlayerByUUID(Objects.requireNonNull(getThrower()));
   }
 }

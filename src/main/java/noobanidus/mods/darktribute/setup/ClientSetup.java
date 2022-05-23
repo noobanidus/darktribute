@@ -16,6 +16,6 @@ public class ClientSetup {
   }
 
   public static void registerParticles (ParticleFactoryRegisterEvent event) {
-    Minecraft.getInstance().particles.registerFactory(ModParticles.DIAMOND.get(), new DiamondParticle.Factory());
+    Minecraft.getInstance().particleEngine.register(ModParticles.DIAMOND.get(), new DiamondParticle.Factory());
   }
 }

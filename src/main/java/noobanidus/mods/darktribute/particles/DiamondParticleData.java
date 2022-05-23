@@ -4,18 +4,20 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import noobanidus.mods.darktribute.init.ModParticles;
 
 import java.util.Locale;
 
+import net.minecraft.core.particles.ParticleOptions.Deserializer;
+
 @SuppressWarnings("deprecation")
-public class DiamondParticleData implements IParticleData {
-  public static final IDeserializer<DiamondParticleData> DESERIALIZER = new IDeserializer<DiamondParticleData>() {
+public class DiamondParticleData implements ParticleOptions {
+  public static final Deserializer<DiamondParticleData> DESERIALIZER = new Deserializer<DiamondParticleData>() {
     @Override
-    public DiamondParticleData deserialize(ParticleType<DiamondParticleData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
+    public DiamondParticleData fromCommand(ParticleType<DiamondParticleData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
         reader.expect(' ');
         float size = reader.readFloat();
         reader.expect(' ');
@@ -38,7 +40,7 @@ public class DiamondParticleData implements IParticleData {
     }
 
     @Override
-    public DiamondParticleData read(ParticleType<DiamondParticleData> particleTypeIn, PacketBuffer buf) {
+    public DiamondParticleData fromNetwork(ParticleType<DiamondParticleData> particleTypeIn, FriendlyByteBuf buf) {
         return new DiamondParticleData(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat());
     }
   };
@@ -70,7 +72,7 @@ public class DiamondParticleData implements IParticleData {
   }
 
   @Override
-  public void write(PacketBuffer buffer) {
+  public void writeToNetwork(FriendlyByteBuf buffer) {
     buffer.writeFloat(size);
     buffer.writeFloat(red);
     buffer.writeFloat(green);
@@ -81,7 +83,7 @@ public class DiamondParticleData implements IParticleData {
   }
 
   @Override
-  public String getParameters() {
+  public String writeToString() {
     return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %.2f %.2f %.2f", getType().getRegistryName(), size, red, green, blue, alpha, colorScale, gravity);
   }
 }

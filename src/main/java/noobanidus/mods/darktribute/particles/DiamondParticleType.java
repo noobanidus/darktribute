@@ -2,7 +2,7 @@ package noobanidus.mods.darktribute.particles;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.core.particles.ParticleType;
 
 public class DiamondParticleType extends ParticleType<DiamondParticleData> {
   public DiamondParticleType() {
@@ -10,7 +10,7 @@ public class DiamondParticleType extends ParticleType<DiamondParticleData> {
   }
 
   @Override
-  public Codec<DiamondParticleData> func_230522_e_() {
+  public Codec<DiamondParticleData> codec() {
     return DiamondParticleData.CODEC;
   }
 }
