@@ -1,11 +1,10 @@
 package noobanidus.mods.darktribute.init;
 
 import net.minecraft.core.particles.ParticleType;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import noobanidus.mods.darktribute.DarkTribute;
-import noobanidus.mods.darktribute.particles.DiamondParticle;
 import noobanidus.mods.darktribute.particles.DiamondParticleType;
 
 public class ModParticles {
