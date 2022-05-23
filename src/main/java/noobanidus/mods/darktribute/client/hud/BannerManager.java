@@ -1,7 +1,11 @@
 package noobanidus.mods.darktribute.client.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -21,7 +25,6 @@ public class BannerManager {
 
   public static void displayBanner(RenderGameOverlayEvent.Post event) {
     Minecraft mc = Minecraft.getInstance();
-    mc.getTextureManager().bind(DARK_TRIBUTE);
 
     // 10 ticks to fade in
     // 10 ticks to fade out
@@ -47,19 +50,20 @@ public class BannerManager {
     int y = mc.window.getGuiScaledHeight() / 2 - height / 2;
 
     int u = 0, v = 0;
-    RenderSystem.texParameter(GL11C.GL_TEXTURE_2D, GL11C.GL_TEXTURE_WRAP_S, GL14C.GL_CLAMP_TO_EDGE);
-    RenderSystem.texParameter(GL11C.GL_TEXTURE_2D, GL11C.GL_TEXTURE_WRAP_T, GL14C.GL_CLAMP_TO_EDGE);
     float f = 1.0F / textureWidth;
     float f1 = 1.0F / textureHeight;
-    Tessellator tessellator = Tessellator.getInstance();
-    BufferBuilder bufferbuilder = tessellator.getBuilder();
-    //noinspection deprecation
-    bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-    bufferbuilder.vertex((double) x, (double) (y + height), 0.0D).uv((u * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.vertex((double) (x + width), (double) (y + height), 0.0D).uv(((u + (float) width) * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.vertex((double) (x + width), (double) y, 0.0D).uv(((u + (float) width) * f), (v * f1)).color(255, 255, 255, a).endVertex();
-    bufferbuilder.vertex((double) x, (double) y, 0.0D).uv((u * f), (v * f1)).color(255, 255, 255, a).endVertex();
-    tessellator.end();
+    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    RenderSystem.enableBlend();
+    RenderSystem.setShader(GameRenderer::getPositionTexShader);
+    RenderSystem.setShaderTexture(0, DARK_TRIBUTE);
+    BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+    bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+    bufferbuilder.vertex(x, y + height, 0.0D).uv((u * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex(x + width, y + height, 0.0D).uv(((u + (float) width) * f), ((v + (float) height) * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex(x + width, y, 0.0D).uv(((u + (float) width) * f), (v * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.vertex(x, y, 0.0D).uv((u * f), (v * f1)).color(255, 255, 255, a).endVertex();
+    bufferbuilder.end();
+    BufferUploader.end(bufferbuilder);
   }
 
   public static void startTribute() {
