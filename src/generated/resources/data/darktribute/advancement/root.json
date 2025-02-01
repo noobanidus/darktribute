@@ -1,0 +1,28 @@
+{
+  "criteria": {
+    "performed_tribute": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "darktribute:textures/gui/dark_diamond.png",
+    "description": {
+      "translate": "darktribute.advancements.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:diamond"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "darktribute.advancements.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed_tribute"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

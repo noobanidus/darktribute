@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "noobanidus.mods.darktribute.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "darktribute.refmap.json",
+  "mixins": [
+    "MixinItemEntity"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

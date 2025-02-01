@@ -1,0 +1,33 @@
+{
+  "parent": "darktribute:root",
+  "criteria": {
+    "performed_tribute": {
+      "conditions": {
+        "item": {
+          "items": "#darktribute:tribute"
+        }
+      },
+      "trigger": "darktribute:tribute"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "darktribute.advancements.tribute.description"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "darktribute:symbol"
+    },
+    "title": {
+      "translate": "darktribute.advancements.tribute.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed_tribute"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
